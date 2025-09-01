@@ -1,0 +1,14 @@
+d:\IDE STUFF\repos\Oddyseus\bin\Debug\net9.0\Oddyseus.exe
+D:\IDE STUFF\repos\Oddyseus\bin\Debug\net9.0\Oddyseus.deps.json
+D:\IDE STUFF\repos\Oddyseus\bin\Debug\net9.0\Oddyseus.runtimeconfig.json
+d:\IDE STUFF\repos\Oddyseus\bin\Debug\net9.0\Oddyseus.dll
+d:\IDE STUFF\repos\Oddyseus\bin\Debug\net9.0\Oddyseus.pdb
+d:\IDE STUFF\repos\Oddyseus\obj\Debug\net9.0\Oddyseus.GeneratedMSBuildEditorConfig.editorconfig
+d:\IDE STUFF\repos\Oddyseus\obj\Debug\net9.0\Oddyseus.AssemblyInfoInputs.cache
+d:\IDE STUFF\repos\Oddyseus\obj\Debug\net9.0\Oddyseus.AssemblyInfo.cs
+d:\IDE STUFF\repos\Oddyseus\obj\Debug\net9.0\Oddyseus.csproj.CoreCompileInputs.cache
+d:\IDE STUFF\repos\Oddyseus\obj\Debug\net9.0\Oddyseus.dll
+d:\IDE STUFF\repos\Oddyseus\obj\Debug\net9.0\refint\Oddyseus.dll
+d:\IDE STUFF\repos\Oddyseus\obj\Debug\net9.0\Oddyseus.pdb
+D:\IDE STUFF\repos\Oddyseus\obj\Debug\net9.0\Oddyseus.genruntimeconfig.cache
+D:\IDE STUFF\repos\Oddyseus\obj\Debug\net9.0\ref\Oddyseus.dll
