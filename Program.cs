@@ -1,4 +1,4 @@
-﻿
+
 // Simple Input-Output AI API Service (Terminal-based)
 Console.WriteLine("Oddyseus AI Service - Type 'exit' to quit.");
 while (true)
@@ -10,7 +10,7 @@ while (true)
 	if (input.Trim().ToLower() == "exit")
 		break;
 
-	// Placeholder for AI logic - echoing input for now
+	// Placeholder for AI logic, just gonna repeat now.
 	string response = $"AI: You said '{input}'";
 	Console.WriteLine(response);
 }

@@ -10,6 +10,7 @@ namespace Oddyseus.Types
         Neutral, Joy, Content, Love, Curiosity, Surprise, Pride, Calm, Anticipation,
         Fear, Anxiety, Sadness, Disgust, Anger, Frustration, Shame, Guilt, Boredom, Relief, Determination
     }
+    
 
     public readonly struct EmotionVector
     {

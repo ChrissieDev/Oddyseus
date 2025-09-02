@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Oddyseus.Types;
 
-namespace Oddyseus.Core
+namespace Oddyseus.Oddyseus.Core
 {
     public class RelationshipModeler : IRelationshipModeler
     {
@@ -73,7 +73,8 @@ namespace Oddyseus.Core
 
             public string GetRelationshipPartition(int points)
             {
-                // points: -100 to 100
+                // points: -100 to 100 for "relationship"
+                if (points <= -84) return "Hatred";
                 if (points <= -84) return "ExtremeDislike";
                 if (points <= -67) return "StrongDislike";
                 if (points <= -50) return "Dislike";
