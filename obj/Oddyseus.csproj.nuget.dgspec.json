@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\IDE STUFF\\repos\\Oddyseus\\Oddyseus.csproj": {}
+    "C:\\Users\\chkr0004\\VSCode Proj\\.NET Projects\\Oddyseus\\Oddyseus.csproj": {}
   },
   "projects": {
-    "D:\\IDE STUFF\\repos\\Oddyseus\\Oddyseus.csproj": {
+    "C:\\Users\\chkr0004\\VSCode Proj\\.NET Projects\\Oddyseus\\Oddyseus.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\IDE STUFF\\repos\\Oddyseus\\Oddyseus.csproj",
+        "projectUniqueName": "C:\\Users\\chkr0004\\VSCode Proj\\.NET Projects\\Oddyseus\\Oddyseus.csproj",
         "projectName": "Oddyseus",
-        "projectPath": "D:\\IDE STUFF\\repos\\Oddyseus\\Oddyseus.csproj",
-        "packagesPath": "C:\\Users\\Christian\\.nuget\\packages\\",
-        "outputPath": "D:\\IDE STUFF\\repos\\Oddyseus\\obj\\",
+        "projectPath": "C:\\Users\\chkr0004\\VSCode Proj\\.NET Projects\\Oddyseus\\Oddyseus.csproj",
+        "packagesPath": "C:\\Users\\chkr0004\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\chkr0004\\VSCode Proj\\.NET Projects\\Oddyseus\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "D:\\sdks n shit\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Christian\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\chkr0004\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -45,11 +44,21 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.ML.OnnxRuntime": {
+              "target": "Package",
+              "version": "[1.23.2, )"
+            },
+            "Microsoft.ML.OnnxRuntime.Managed": {
+              "target": "Package",
+              "version": "[1.23.2, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -66,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

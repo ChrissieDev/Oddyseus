@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "QlO9iTeOugo=",
+  "dgSpecHash": "LG+nSrdkeco=",
   "success": true,
-  "projectFilePath": "D:\\IDE STUFF\\repos\\Oddyseus\\Oddyseus.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\chkr0004\\VSCode Proj\\.NET Projects\\Oddyseus\\Oddyseus.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\chkr0004\\.nuget\\packages\\microsoft.ml.onnxruntime\\1.23.2\\microsoft.ml.onnxruntime.1.23.2.nupkg.sha512",
+    "C:\\Users\\chkr0004\\.nuget\\packages\\microsoft.ml.onnxruntime.managed\\1.23.2\\microsoft.ml.onnxruntime.managed.1.23.2.nupkg.sha512",
+    "C:\\Users\\chkr0004\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
+    "C:\\Users\\chkr0004\\.nuget\\packages\\system.numerics.tensors\\9.0.0\\system.numerics.tensors.9.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

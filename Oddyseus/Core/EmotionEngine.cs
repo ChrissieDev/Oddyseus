@@ -1,16 +1,36 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Oddyseus.Types;
 
 namespace Oddyseus.Core
 {
-    // Result of quick text appraisal before smoothing is applied
+    public readonly record struct RelationshipSnapshot(string UserId, int Points, string Label, float Affinity)
+    {
+        public static RelationshipSnapshot Empty => new("", 0, "Neutral", 0f);
+    }
+
+    public readonly record struct AppraisalContext(
+        string Text,
+        EmotionSnapshot CurrentEmotion,
+        RelationshipSnapshot Relationship,
+        IReadOnlyList<MemoryEntry> CandidateMemories);
+
+    public interface IAppraisalProvider
+    {
+        Appraisal Evaluate(AppraisalContext context);
+    }
+
+    public sealed class NeutralAppraisalProvider : IAppraisalProvider
+    {
+        public Appraisal Evaluate(AppraisalContext context) => new Appraisal(0f, 0f, 0);
+    }
+
+    // quick pulse read before the smoothing pass kicks in
     public readonly struct Appraisal
     {
-        public readonly float ValencePulse;   // raw pulse -1..1
-        public readonly float ArousalPulse;   // raw pulse 0..1
-        public readonly int Pleasantness;     // -10..10 coarse valence for relationships
+        public readonly float ValencePulse;   // -1..1 snapshot
+        public readonly float ArousalPulse;   // 0..1 snapshot
+        public readonly int Pleasantness;     // -10..10 coarse vibe for relationship math
         public Appraisal(float v, float a, int p)
         {
             ValencePulse = Math.Clamp(v, -1f, 1f);
@@ -40,37 +60,44 @@ namespace Oddyseus.Core
         float Arousal { get; }
         string CurrentLabel { get; }
         Appraisal Appraise(string text);
+        Appraisal Appraise(string text, RelationshipSnapshot relationship, IReadOnlyList<MemoryEntry>? candidateMemories = null);
         void Apply(Appraisal appraisal);
         EmotionSnapshot Snapshot();
         float AffectMatch(float memValence, float memArousal);
     }
 
-    // Minimal emotion engine, it basically keeps only valence/arousal, and derives label on demand
+    // dead-simple engine: glide valence/arousal around, slap a label on demand
     public sealed class EmotionEngine : IEmotionEngine
     {
-        // Current "smoothed" state
-        public float Valence { get; private set; }   // -1..1
-        public float Arousal { get; private set; }   // 0..1
+        private readonly IAppraisalProvider _appraisalProvider;
+
+        public EmotionEngine(IAppraisalProvider? appraisalProvider = null)
+        {
+            _appraisalProvider = appraisalProvider ?? new NeutralAppraisalProvider();
+        }
+
+        public float Valence { get; private set; }   // -1..1 running state
+        public float Arousal { get; private set; }   // 0..1 running state
         public string CurrentLabel => LabelFrom(Valence, Arousal);
 
-        // Smoothing factors. Bigger = bigger reaction
+        // bigger blend = snappier mood swings
         private const float ValenceBlend = 0.20f;
         private const float ArousalBlend = 0.15f;
 
-        // Neutral drift target (where we slowly glide back to when idle)
+        // neutral drift anchors when nothing exciting happens
         private static readonly (float v, float a) NeutralTarget = (0f, 0.25f);
 
-        // Track last time we ran decay so we can scale decay by real elapsed time
+        // keep last decay tick so time-based drift feels real
         private DateTimeOffset _lastDecayUtc = DateTimeOffset.MinValue;
 
-        // Heuristic lexicons (small + cheap)
+        // dumb heuristics until the lightweight LLM takes over
         private static readonly string[] PositiveWords = { "love", "great", "awesome", "nice", "thanks", "thank", "cool", "amazing", "good", "wonderful", "glad", "happy" };
         private static readonly string[] NegativeWords = { "hate", "stupid", "idiot", "dumb", "awful", "terrible", "bad", "angry", "mad", "upset", "annoying", "sad", "sorry" };
         private static readonly string[] CalmingWords  = { "calm", "relax", "breathe", "sleep", "rest", "peace" };
         private static readonly string[] HighArousalMarkers = { "!", "!!!", "now", "hurry", "quick", "urgent" };
         private static readonly string[] LowArousalWords = { "tired", "sleepy", "bored", "boring", "exhausted" };
 
-        // Appraise raw text -> unsmoothed pulses
+        // quick-and-dirty text scan to raw pulses
         public Appraisal Appraise(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -82,59 +109,56 @@ namespace Oddyseus.Core
             int negHits = CountHits(lower, NegativeWords);
 
             int net = posHits - negHits;
-            // Base valence pulse from word balance
-            float valPulse = 0f;
-            if (net != 0)
-            {
-                // Scale: 1 word difference ≈ 0.25, 2+ saturate toward 1
-                valPulse = Math.Clamp(net * 0.25f, -1f, 1f);
-            }
+            float valPulse = net == 0 ? 0f : Math.Clamp(net * 0.25f, -1f, 1f);
 
-            // Arousal pulses
-            float arousalPulse = 0.25f; // baseline mid-low
+            float arousalPulse = 0.25f; // low simmer baseline
             if (HighArousalMarkers.Any(m => lower.Contains(m)))
                 arousalPulse += 0.25f;
             if (LowArousalWords.Any(w => lower.Contains(w)))
                 arousalPulse -= 0.20f;
             if (CalmingWords.Any(w => lower.Contains(w)))
                 arousalPulse -= 0.15f;
-
-            // All caps heuristic (shouting)
             if (HasShouting(text))
                 arousalPulse += 0.25f;
 
             arousalPulse = Math.Clamp(arousalPulse, 0f, 1f);
-
-            // Pleasantness integer for relationship: derive from valPulse * 10
             int pleasantness = (int)Math.Round(valPulse * 10f);
 
             return new Appraisal(valPulse, arousalPulse, pleasantness);
         }
 
+        public Appraisal Appraise(string text, RelationshipSnapshot relationship, IReadOnlyList<MemoryEntry>? candidateMemories = null)
+        {
+            var context = new AppraisalContext(
+                text,
+                Snapshot(),
+                relationship,
+                candidateMemories ?? Array.Empty<MemoryEntry>());
+
+            return _appraisalProvider.Evaluate(context);
+        }
+
         public void Apply(Appraisal appraisal)
         {
-            // Smooth update
             Valence = Smooth(Valence, appraisal.ValencePulse, ValenceBlend);
             Arousal = Smooth(Arousal, appraisal.ArousalPulse, ArousalBlend);
         }
 
         public EmotionSnapshot Snapshot() => new EmotionSnapshot(Valence, Arousal, CurrentLabel);
 
-        // We blend a little toward neutral. Call this from a timer or once per turn.
+        // nudge back toward relaxed over real elapsed time
         public void Decay(IClock clock)
         {
             var now = clock.UtcNow;
             if (_lastDecayUtc == DateTimeOffset.MinValue)
             {
                 _lastDecayUtc = now;
-                return; // no previous baseline yet
+                return;
             }
 
             var elapsedSeconds = (now - _lastDecayUtc).TotalSeconds;
             if (elapsedSeconds <= 0) return;
 
-            // How fast we relax per second toward neutral.
-            // Example: 0.02 blend per minute, a very gentle drift.
             const double blendPerMinute = 0.02;
             var blend = (float)Math.Min(1.0, (elapsedSeconds / 60.0) * blendPerMinute);
 
@@ -144,22 +168,20 @@ namespace Oddyseus.Core
             _lastDecayUtc = now;
         }
 
-        // Affect match between current state and a stored memory snapshot
+        // how close a memory's vibe is to the current vibe
         public float AffectMatch(float memValence, float memArousal)
         {
             var dist = AffectDistance(Valence, Arousal, memValence, memArousal);
-            // Convert distance to similarity 0..1
             const float roughMax = 1.5f;
             var norm = Math.Clamp(dist / roughMax, 0f, 1f);
             return 1f - norm;
         }
 
-        // Static helpers
-
+        // helpers
         public static float AffectDistance(float v1, float a1, float v2, float a2)
         {
             var dv = v1 - v2;
-            var da = (a1 - a2) * 0.8f; // slightly reduce arousal impact
+            var da = (a1 - a2) * 0.8f; // arousal counts but softer
             return MathF.Sqrt(dv * dv + da * da);
         }
 
@@ -191,7 +213,7 @@ namespace Oddyseus.Core
             return letters > 0 && upper > 0 && (float)upper / letters > 0.6f;
         }
 
-        // Simple label buckets 
+        // simple bucket labels for now
         public static string LabelFrom(float v, float a)
         {
             if (v > 0.45f && a > 0.55f) return "Joy";
@@ -204,7 +226,7 @@ namespace Oddyseus.Core
         }
     }
 
-    // Extension to stamp a memory with current emotion snapshot
+    // slap the current mood into a memory snapshot
     public static class EmotionMemoryExtensions
     {
         public static void StampEmotion(this MemoryEntry m, IEmotionEngine engine)
@@ -222,13 +244,13 @@ namespace Oddyseus.Core
         public string Role = "";
         public string UserText = "";
         public string AiText = "";
-        public float Valence;          // snapshot
-        public float Arousal;          // snapshot
+        public float Valence;
+        public float Arousal;
         public int Pleasantness;
         public int RelationshipPoints;
+        public float MaterialImportance;
         public float[] Embedding = Array.Empty<float>();
 
-        // Fill label lazily using engine's same logic
         public EmotionSnapshot EmotionSnapshot => new EmotionSnapshot(
             Valence,
             Arousal,
