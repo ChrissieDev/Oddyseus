@@ -8,10 +8,22 @@
     ".NETCoreApp,Version=v9.0": {
       "Oddyseus/1.0.0": {
         "dependencies": {
-          "Microsoft.ML.OnnxRuntime": "1.23.2"
+          "Microsoft.ML.OnnxRuntime": "1.23.2",
+          "Microsoft.ML.OnnxRuntime.Managed": "1.23.2",
+          "Microsoft.ML.Tokenizers": "2.0.0",
+          "Tokenizers.DotNet": "1.1.0",
+          "Tokenizers.DotNet.runtime.win-x64": "1.1.0"
         },
         "runtime": {
           "Oddyseus.dll": {}
+        }
+      },
+      "Google.Protobuf/3.30.2": {
+        "runtime": {
+          "lib/net5.0/Google.Protobuf.dll": {
+            "assemblyVersion": "3.30.2.0",
+            "fileVersion": "3.30.2.0"
+          }
         }
       },
       "Microsoft.ML.OnnxRuntime/1.23.2": {
@@ -113,12 +125,40 @@
           }
         }
       },
+      "Microsoft.ML.Tokenizers/2.0.0": {
+        "dependencies": {
+          "Google.Protobuf": "3.30.2"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.ML.Tokenizers.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "2.0.25.55704"
+          }
+        }
+      },
       "System.Memory/4.5.5": {},
       "System.Numerics.Tensors/9.0.0": {
         "runtime": {
           "lib/net9.0/System.Numerics.Tensors.dll": {
             "assemblyVersion": "9.0.0.0",
             "fileVersion": "9.0.24.52809"
+          }
+        }
+      },
+      "Tokenizers.DotNet/1.1.0": {
+        "runtime": {
+          "lib/net9.0/Tokenizers.DotNet.dll": {
+            "assemblyVersion": "1.0.9.0",
+            "fileVersion": "2024.12.27.35374"
+          }
+        }
+      },
+      "Tokenizers.DotNet.runtime.win-x64/1.1.0": {
+        "runtimeTargets": {
+          "runtimes/win-x64/native/hf_tokenizers.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
           }
         }
       }
@@ -129,6 +169,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Google.Protobuf/3.30.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Y2aOVLIt75yeeEWigg9V9YnjsEm53sADtLGq0gLhwaXpk3iu8tYSoauolyhenagA2sWno2TQ2WujI0HQd6s1Vw==",
+      "path": "google.protobuf/3.30.2",
+      "hashPath": "google.protobuf.3.30.2.nupkg.sha512"
     },
     "Microsoft.ML.OnnxRuntime/1.23.2": {
       "type": "package",
@@ -144,6 +191,13 @@
       "path": "microsoft.ml.onnxruntime.managed/1.23.2",
       "hashPath": "microsoft.ml.onnxruntime.managed.1.23.2.nupkg.sha512"
     },
+    "Microsoft.ML.Tokenizers/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+b8lT4cLLO/sBR2hjvE/qG6qrZG15h7/PBvnIrzTh4xDaAxdHUY6449rC+1pHzQUsBiCHZVbj+VMn+xS0sL7TA==",
+      "path": "microsoft.ml.tokenizers/2.0.0",
+      "hashPath": "microsoft.ml.tokenizers.2.0.0.nupkg.sha512"
+    },
     "System.Memory/4.5.5": {
       "type": "package",
       "serviceable": true,
@@ -157,6 +211,20 @@
       "sha512": "sha512-hyJB4UlpAi19Xr9AXzu2NuagKC4lPfHObNMEAA0HmqFz2rX7wKgzeYzO/jM/eBHDhnUGFFEjk5cOoJaxqg5J4A==",
       "path": "system.numerics.tensors/9.0.0",
       "hashPath": "system.numerics.tensors.9.0.0.nupkg.sha512"
+    },
+    "Tokenizers.DotNet/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OixrGjxYBd0pDgW+XgAi+vF2LVXavgshWTmgfMx17ndHk7P/GQX3zON2+jEUzTiwr6fe14cXF6JohdYZbv8sJw==",
+      "path": "tokenizers.dotnet/1.1.0",
+      "hashPath": "tokenizers.dotnet.1.1.0.nupkg.sha512"
+    },
+    "Tokenizers.DotNet.runtime.win-x64/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-X38w6pzdEPdSPX/ukmkpl1WfEoK/2WYlDGe+PC3+7MMhewLZ7sqfMbG3Bc6Ws7HZWDpqz79l+4Aim2Xmp6u80g==",
+      "path": "tokenizers.dotnet.runtime.win-x64/1.1.0",
+      "hashPath": "tokenizers.dotnet.runtime.win-x64.1.1.0.nupkg.sha512"
     }
   }
 }

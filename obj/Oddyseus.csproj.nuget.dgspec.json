@@ -57,6 +57,18 @@
             "Microsoft.ML.OnnxRuntime.Managed": {
               "target": "Package",
               "version": "[1.23.2, )"
+            },
+            "Microsoft.ML.Tokenizers": {
+              "target": "Package",
+              "version": "[2.0.0, )"
+            },
+            "Tokenizers.DotNet": {
+              "target": "Package",
+              "version": "[1.1.0, )"
+            },
+            "Tokenizers.DotNet.runtime.win-x64": {
+              "target": "Package",
+              "version": "[1.1.0, )"
             }
           },
           "imports": [

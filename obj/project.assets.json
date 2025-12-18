@@ -2,6 +2,19 @@
   "version": 3,
   "targets": {
     "net9.0": {
+      "Google.Protobuf/3.30.2": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0/Google.Protobuf.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net5.0/Google.Protobuf.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
       "Microsoft.ML.OnnxRuntime/1.23.2": {
         "type": "package",
         "dependencies": {
@@ -98,6 +111,22 @@
           "build/netstandard2.0/Microsoft.ML.OnnxRuntime.Managed.targets": {}
         }
       },
+      "Microsoft.ML.Tokenizers/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Google.Protobuf": "3.30.2"
+        },
+        "compile": {
+          "lib/net8.0/Microsoft.ML.Tokenizers.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.ML.Tokenizers.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "System.Memory/4.5.5": {
         "type": "package",
         "compile": {
@@ -122,10 +151,55 @@
         "build": {
           "buildTransitive/net8.0/_._": {}
         }
+      },
+      "Tokenizers.DotNet/1.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/net9.0/Tokenizers.DotNet.dll": {
+            "related": ".deps.json;.pdb"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/Tokenizers.DotNet.dll": {
+            "related": ".deps.json;.pdb"
+          }
+        }
+      },
+      "Tokenizers.DotNet.runtime.win-x64/1.1.0": {
+        "type": "package",
+        "runtimeTargets": {
+          "runtimes/win-x64/native/hf_tokenizers.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          }
+        }
       }
     }
   },
   "libraries": {
+    "Google.Protobuf/3.30.2": {
+      "sha512": "Y2aOVLIt75yeeEWigg9V9YnjsEm53sADtLGq0gLhwaXpk3iu8tYSoauolyhenagA2sWno2TQ2WujI0HQd6s1Vw==",
+      "type": "package",
+      "path": "google.protobuf/3.30.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "google.protobuf.3.30.2.nupkg.sha512",
+        "google.protobuf.nuspec",
+        "lib/net45/Google.Protobuf.dll",
+        "lib/net45/Google.Protobuf.pdb",
+        "lib/net45/Google.Protobuf.xml",
+        "lib/net5.0/Google.Protobuf.dll",
+        "lib/net5.0/Google.Protobuf.pdb",
+        "lib/net5.0/Google.Protobuf.xml",
+        "lib/netstandard1.1/Google.Protobuf.dll",
+        "lib/netstandard1.1/Google.Protobuf.pdb",
+        "lib/netstandard1.1/Google.Protobuf.xml",
+        "lib/netstandard2.0/Google.Protobuf.dll",
+        "lib/netstandard2.0/Google.Protobuf.pdb",
+        "lib/netstandard2.0/Google.Protobuf.xml"
+      ]
+    },
     "Microsoft.ML.OnnxRuntime/1.23.2": {
       "sha512": "849xImRO0vxDH7DNlg/FAVGExKfjN1r2CIZevZGI5JQCoOj+0T23ShqPEgu5mLTwElot5X7V0qkO0jUz/yJZbA==",
       "type": "package",
@@ -209,6 +283,25 @@
         "microsoft.ml.onnxruntime.managed.nuspec"
       ]
     },
+    "Microsoft.ML.Tokenizers/2.0.0": {
+      "sha512": "+b8lT4cLLO/sBR2hjvE/qG6qrZG15h7/PBvnIrzTh4xDaAxdHUY6449rC+1pHzQUsBiCHZVbj+VMn+xS0sL7TA==",
+      "type": "package",
+      "path": "microsoft.ml.tokenizers/2.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net8.0/Microsoft.ML.Tokenizers.dll",
+        "lib/net8.0/Microsoft.ML.Tokenizers.xml",
+        "lib/netstandard2.0/Microsoft.ML.Tokenizers.dll",
+        "lib/netstandard2.0/Microsoft.ML.Tokenizers.xml",
+        "microsoft.ml.tokenizers.2.0.0.nupkg.sha512",
+        "microsoft.ml.tokenizers.nuspec",
+        "mlnetlogo.png"
+      ]
+    },
     "System.Memory/4.5.5": {
       "sha512": "XIWiDvKPXaTveaB7HVganDlOCRoj03l+jrwNvcge/t8vhGYKvqV+dMv6G4SAX2NoNmN0wZfVPTAlFwZcZvVOUw==",
       "type": "package",
@@ -259,12 +352,51 @@
         "system.numerics.tensors.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "Tokenizers.DotNet/1.1.0": {
+      "sha512": "OixrGjxYBd0pDgW+XgAi+vF2LVXavgshWTmgfMx17ndHk7P/GQX3zON2+jEUzTiwr6fe14cXF6JohdYZbv8sJw==",
+      "type": "package",
+      "path": "tokenizers.dotnet/1.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "docs/README.md",
+        "lib/net6.0/Tokenizers.DotNet.deps.json",
+        "lib/net6.0/Tokenizers.DotNet.dll",
+        "lib/net6.0/Tokenizers.DotNet.pdb",
+        "lib/net7.0/Tokenizers.DotNet.deps.json",
+        "lib/net7.0/Tokenizers.DotNet.dll",
+        "lib/net7.0/Tokenizers.DotNet.pdb",
+        "lib/net8.0/Tokenizers.DotNet.deps.json",
+        "lib/net8.0/Tokenizers.DotNet.dll",
+        "lib/net8.0/Tokenizers.DotNet.pdb",
+        "lib/net9.0/Tokenizers.DotNet.deps.json",
+        "lib/net9.0/Tokenizers.DotNet.dll",
+        "lib/net9.0/Tokenizers.DotNet.pdb",
+        "tokenizers.dotnet.1.1.0.nupkg.sha512",
+        "tokenizers.dotnet.nuspec"
+      ]
+    },
+    "Tokenizers.DotNet.runtime.win-x64/1.1.0": {
+      "sha512": "X38w6pzdEPdSPX/ukmkpl1WfEoK/2WYlDGe+PC3+7MMhewLZ7sqfMbG3Bc6Ws7HZWDpqz79l+4Aim2Xmp6u80g==",
+      "type": "package",
+      "path": "tokenizers.dotnet.runtime.win-x64/1.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "runtimes/win-x64/native/hf_tokenizers.dll",
+        "tokenizers.dotnet.runtime.win-x64.1.1.0.nupkg.sha512",
+        "tokenizers.dotnet.runtime.win-x64.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
     "net9.0": [
       "Microsoft.ML.OnnxRuntime >= 1.23.2",
-      "Microsoft.ML.OnnxRuntime.Managed >= 1.23.2"
+      "Microsoft.ML.OnnxRuntime.Managed >= 1.23.2",
+      "Microsoft.ML.Tokenizers >= 2.0.0",
+      "Tokenizers.DotNet >= 1.1.0",
+      "Tokenizers.DotNet.runtime.win-x64 >= 1.1.0"
     ]
   },
   "packageFolders": {
@@ -324,6 +456,18 @@
           "Microsoft.ML.OnnxRuntime.Managed": {
             "target": "Package",
             "version": "[1.23.2, )"
+          },
+          "Microsoft.ML.Tokenizers": {
+            "target": "Package",
+            "version": "[2.0.0, )"
+          },
+          "Tokenizers.DotNet": {
+            "target": "Package",
+            "version": "[1.1.0, )"
+          },
+          "Tokenizers.DotNet.runtime.win-x64": {
+            "target": "Package",
+            "version": "[1.1.0, )"
           }
         },
         "imports": [

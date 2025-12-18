@@ -13,13 +13,17 @@ d:\IDE STUFF\repos\Oddyseus\obj\Debug\net9.0\Oddyseus.pdb
 D:\IDE STUFF\repos\Oddyseus\obj\Debug\net9.0\Oddyseus.genruntimeconfig.cache
 D:\IDE STUFF\repos\Oddyseus\obj\Debug\net9.0\ref\Oddyseus.dll
 C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\bin\Debug\net9.0\Oddyseus\Core\Models\Qwen3EmbModel.onnx
+C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\bin\Debug\net9.0\Oddyseus\Core\Models\tokenizer.json
 C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\bin\Debug\net9.0\Oddyseus.exe
 C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\bin\Debug\net9.0\Oddyseus.deps.json
 C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\bin\Debug\net9.0\Oddyseus.runtimeconfig.json
 C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\bin\Debug\net9.0\Oddyseus.dll
 C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\bin\Debug\net9.0\Oddyseus.pdb
+C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\bin\Debug\net9.0\Google.Protobuf.dll
 C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\bin\Debug\net9.0\Microsoft.ML.OnnxRuntime.dll
+C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\bin\Debug\net9.0\Microsoft.ML.Tokenizers.dll
 C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\bin\Debug\net9.0\System.Numerics.Tensors.dll
+C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\bin\Debug\net9.0\Tokenizers.DotNet.dll
 C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\bin\Debug\net9.0\runtimes\android\native\onnxruntime.aar
 C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\bin\Debug\net9.0\runtimes\ios\native\onnxruntime.xcframework.zip
 C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\bin\Debug\net9.0\runtimes\linux-arm64\native\libonnxruntime.so
@@ -36,6 +40,7 @@ C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\bin\Debug\net9.0\runtimes\w
 C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\bin\Debug\net9.0\runtimes\win-x64\native\onnxruntime.lib
 C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\bin\Debug\net9.0\runtimes\win-x64\native\onnxruntime_providers_shared.dll
 C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\bin\Debug\net9.0\runtimes\win-x64\native\onnxruntime_providers_shared.lib
+C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\bin\Debug\net9.0\runtimes\win-x64\native\hf_tokenizers.dll
 C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\obj\Debug\net9.0\Oddyseus.csproj.AssemblyReference.cache
 C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\obj\Debug\net9.0\Oddyseus.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\chkr0004\VSCode Proj\.NET Projects\Oddyseus\obj\Debug\net9.0\Oddyseus.AssemblyInfoInputs.cache

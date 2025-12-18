@@ -240,7 +240,8 @@ namespace Oddyseus.Core
     public sealed class MemoryEntry
     {
         public string Id = Guid.NewGuid().ToString();
-        public DateTime TimeUtc = DateTime.UtcNow;
+        public DateTimeOffset TimeUtc = DateTimeOffset.UtcNow;
+        public long MonotonicStamp; // monotonic ticks captured at write time
         public string Role = "";
         public string UserText = "";
         public string AiText = "";

@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Microsoft.ML.OnnxRuntime;
 using Microsoft.ML.OnnxRuntime.Tensors;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Oddyseus.Core;
 
@@ -79,27 +83,40 @@ public sealed class MemoryManager : IDisposable
         int Pleasantness,
         float RelationshipPoints,
         float MaterialImportance,
+        long MonotonicStamp,
         DateTimeOffset Timestamp);
 
-    public float ComputeWeightedScore(in MemorySignals signals, DateTimeOffset now, TimeSpan halfLife)
+    public float ComputeWeightedScore(in MemorySignals signals, DateTimeOffset now, TimeSpan halfLife, long nowMonotonicTicks)
     {
         const float relationshipWeight = 0.35f;
         const float pleasantnessWeight = 0.30f;
         const float arousalWeight = 0.20f;
         const float importanceWeight = 0.15f;
+        const float baselineScore = 0.05f;  // lower floor so semantics drive ranking
 
         var normalizedRelationship = Math.Clamp(signals.RelationshipPoints / 100f, -1f, 1f);
         var normalizedPleasantness = Math.Clamp(signals.Pleasantness / 10f, -1f, 1f);
         var normalizedArousal = Math.Clamp(signals.Arousal, -1f, 1f);
         var normalizedImportance = Math.Clamp(signals.MaterialImportance, 0f, 1f);
 
-        var affectScore =
+        var affectScore = baselineScore +
             (relationshipWeight * normalizedRelationship) +
             (pleasantnessWeight * MathF.Abs(normalizedPleasantness)) +
             (arousalWeight * MathF.Abs(normalizedArousal)) +
             (importanceWeight * normalizedImportance);
 
-        var decay = MathF.Exp(-(float)((now - signals.Timestamp).TotalSeconds / halfLife.TotalSeconds));
+        double elapsedSeconds;
+        if (signals.MonotonicStamp > 0 && nowMonotonicTicks > signals.MonotonicStamp)
+        {
+            var tickDelta = nowMonotonicTicks - signals.MonotonicStamp;
+            elapsedSeconds = tickDelta / (double)Stopwatch.Frequency;
+        }
+        else
+        {
+            elapsedSeconds = (now - signals.Timestamp).TotalSeconds;
+        }
+
+        var decay = MathF.Exp(-(float)(elapsedSeconds / halfLife.TotalSeconds));
         return signals.SemanticSimilarity * affectScore * decay;
     }
 
@@ -110,16 +127,22 @@ public sealed class MemoryManager : IDisposable
         IEmotionEngine emotionEngine,
         int take,
         TimeSpan halfLife,
-        DateTimeOffset now)
+        DateTimeOffset now,
+        long nowMonotonicTicks,
+        float minScore = 0f,
+        float semanticFloor = 0.15f,
+        DateTimeOffset? targetTime = null,
+        TimeSpan? timeWindow = null)
     {
         var ranked = new List<(MemoryEntry, float)>();
+        var windowSeconds = timeWindow?.TotalSeconds ?? 0;
 
         foreach (var memory in candidates)
         {
             if (memory.Embedding.Length == 0) continue;
 
             var semanticSim = CosineSimilarity(queryEmbedding, memory.Embedding);
-            if (semanticSim <= 0f) continue;
+            if (semanticSim < semanticFloor) continue;
 
             var signals = new MemorySignals(
                 semanticSim,
@@ -128,14 +151,23 @@ public sealed class MemoryManager : IDisposable
                 memory.Pleasantness,
                 memory.RelationshipPoints,
                 memory.MaterialImportance,
+                memory.MonotonicStamp,
                 memory.TimeUtc);
 
-            var baseScore = ComputeWeightedScore(signals, now, halfLife);
-            if (baseScore <= 0f) continue;
-
+            var baseScore = ComputeWeightedScore(signals, now, halfLife, nowMonotonicTicks);
             var affectAlignment = emotionEngine.AffectMatch(memory.Valence, memory.Arousal);
             var totalScore = baseScore * affectAlignment;
-            if (totalScore <= 0f) continue;
+
+            if (targetTime.HasValue && windowSeconds > 0)
+            {
+                var delta = Math.Abs((targetTime.Value - memory.TimeUtc).TotalSeconds);
+                var timeProximity = MathF.Exp(-(float)(delta / windowSeconds));
+                totalScore *= (0.5f + timeProximity); // modest boost for closer timestamps
+            }
+
+            Console.WriteLine($"Memory '{memory.UserText}': sem={semanticSim:F3}, base={baseScore:F3}, affect={affectAlignment:F3}, total={totalScore:F3}");
+
+            if (totalScore < minScore) continue;
 
             ranked.Add((memory, totalScore));
         }
@@ -146,7 +178,7 @@ public sealed class MemoryManager : IDisposable
             .ToList();
     }
 
-    private static float CosineSimilarity(ReadOnlySpan<float> a, ReadOnlySpan<float> b)
+    public static float CosineSimilarity(ReadOnlySpan<float> a, ReadOnlySpan<float> b)
     {
         var length = Math.Min(a.Length, b.Length);
         double dot = 0;

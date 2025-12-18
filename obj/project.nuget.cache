@@ -1,13 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "LG+nSrdkeco=",
+  "dgSpecHash": "e7yBwdffqlE=",
   "success": true,
   "projectFilePath": "C:\\Users\\chkr0004\\VSCode Proj\\.NET Projects\\Oddyseus\\Oddyseus.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\chkr0004\\.nuget\\packages\\google.protobuf\\3.30.2\\google.protobuf.3.30.2.nupkg.sha512",
     "C:\\Users\\chkr0004\\.nuget\\packages\\microsoft.ml.onnxruntime\\1.23.2\\microsoft.ml.onnxruntime.1.23.2.nupkg.sha512",
     "C:\\Users\\chkr0004\\.nuget\\packages\\microsoft.ml.onnxruntime.managed\\1.23.2\\microsoft.ml.onnxruntime.managed.1.23.2.nupkg.sha512",
+    "C:\\Users\\chkr0004\\.nuget\\packages\\microsoft.ml.tokenizers\\2.0.0\\microsoft.ml.tokenizers.2.0.0.nupkg.sha512",
     "C:\\Users\\chkr0004\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
-    "C:\\Users\\chkr0004\\.nuget\\packages\\system.numerics.tensors\\9.0.0\\system.numerics.tensors.9.0.0.nupkg.sha512"
+    "C:\\Users\\chkr0004\\.nuget\\packages\\system.numerics.tensors\\9.0.0\\system.numerics.tensors.9.0.0.nupkg.sha512",
+    "C:\\Users\\chkr0004\\.nuget\\packages\\tokenizers.dotnet\\1.1.0\\tokenizers.dotnet.1.1.0.nupkg.sha512",
+    "C:\\Users\\chkr0004\\.nuget\\packages\\tokenizers.dotnet.runtime.win-x64\\1.1.0\\tokenizers.dotnet.runtime.win-x64.1.1.0.nupkg.sha512"
   ],
   "logs": []
 }
